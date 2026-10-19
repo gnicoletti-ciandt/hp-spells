@@ -1,0 +1,12 @@
+/Users/nicoleg1/Documents/test-pyramid/harry-potter-app/potter-consumer-service/src/main/java/com/example/potterconsumer/Main.java
+/Users/nicoleg1/Documents/test-pyramid/harry-potter-app/potter-consumer-service/src/main/java/com/example/potterconsumer/api/ErrorDto.java
+/Users/nicoleg1/Documents/test-pyramid/harry-potter-app/potter-consumer-service/src/main/java/com/example/potterconsumer/api/QueryParams.java
+/Users/nicoleg1/Documents/test-pyramid/harry-potter-app/potter-consumer-service/src/main/java/com/example/potterconsumer/api/SpellDto.java
+/Users/nicoleg1/Documents/test-pyramid/harry-potter-app/potter-consumer-service/src/main/java/com/example/potterconsumer/api/SpellDtoMapper.java
+/Users/nicoleg1/Documents/test-pyramid/harry-potter-app/potter-consumer-service/src/main/java/com/example/potterconsumer/api/SpellHttpServer.java
+/Users/nicoleg1/Documents/test-pyramid/harry-potter-app/potter-consumer-service/src/main/java/com/example/potterconsumer/client/NameEncoder.java
+/Users/nicoleg1/Documents/test-pyramid/harry-potter-app/potter-consumer-service/src/main/java/com/example/potterconsumer/client/PotterApiClient.java
+/Users/nicoleg1/Documents/test-pyramid/harry-potter-app/potter-consumer-service/src/main/java/com/example/potterconsumer/client/PotterApiException.java
+/Users/nicoleg1/Documents/test-pyramid/harry-potter-app/potter-consumer-service/src/main/java/com/example/potterconsumer/client/SpellNotFoundException.java
+/Users/nicoleg1/Documents/test-pyramid/harry-potter-app/potter-consumer-service/src/main/java/com/example/potterconsumer/client/SpellResponse.java
+/Users/nicoleg1/Documents/test-pyramid/harry-potter-app/potter-consumer-service/src/main/java/com/example/potterconsumer/client/SpellSelector.java

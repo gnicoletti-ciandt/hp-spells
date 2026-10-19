@@ -1,0 +1,13 @@
+com/example/potterconsumer/api/SpellDto.class
+com/example/potterconsumer/client/SpellNotFoundException.class
+com/example/potterconsumer/api/QueryParams.class
+com/example/potterconsumer/api/SpellDtoMapper.class
+com/example/potterconsumer/client/PotterApiClient$1.class
+com/example/potterconsumer/client/NameEncoder.class
+com/example/potterconsumer/Main.class
+com/example/potterconsumer/api/ErrorDto.class
+com/example/potterconsumer/client/PotterApiClient.class
+com/example/potterconsumer/client/SpellSelector.class
+com/example/potterconsumer/client/PotterApiException.class
+com/example/potterconsumer/api/SpellHttpServer.class
+com/example/potterconsumer/client/SpellResponse.class

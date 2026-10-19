@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Harry Potter Spell Lookup</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <h2>Valid spells</h2>
+      <p id="spell-list-status">Loading spells...</p>
+      <ul id="spell-list"></ul>
+    </aside>
+
+    <main>
+      <h1>Harry Potter Spell Lookup</h1>
+
+      <form id="spell-form">
+        <label for="name-input">Spell</label>
+        <input id="name-input" name="name" type="text" value="Expelliarmus" autocomplete="off" />
+        <button id="lookup-button" type="submit">Get Spell</button>
+      </form>
+
+      <section id="spell-card" hidden>
+        <p id="spell-name"></p>
+        <p id="spell-description"></p>
+      </section>
+
+      <p id="error-message" role="alert" hidden></p>
+    </main>
+  </div>
+
+  <script src="spellLogic.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+  <!-- Local-only override so this sample project can build against public
+       Maven Central directly, bypassing the corporate artifactory mirror
+       configured in ~/.m2/settings.xml (which isn't reachable from here).
+       Not meant to be committed/used outside this sandbox. -->
+</settings>
