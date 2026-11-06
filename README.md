@@ -77,31 +77,95 @@ cd potter-frontend && npm test
 
 ## Business rules
 
-### Backend
+Written as acceptance criteria in Gherkin, following the journey of a person using the app.
+No technical knowledge is needed to read them.
 
-1. **A spell name is required.** A missing or blank `name` returns 400. Surrounding whitespace is trimmed before the lookup.
-2. **Search is delegated to potterapi** (`/en/spells?search=<name>`, English only). The name is URL-encoded, with spaces as `%20`.
-3. **One spell is returned per request.** potterapi's search returns a list of best matches, which is narrowed to one as follows:
-   - An exact match wins, ignoring case and surrounding whitespace. So `Lumos` returns "Lumos" even if "Lumos Maxima" is listed first.
-   - Otherwise the first result is returned, so a partial name like `Lum` returns the first match.
-4. **No results means 404.** potterapi answers 200 with an empty list in that case, and the service turns it into a 404.
-5. **Upstream failures mean 502.** This covers a non-200 status, an unparsable body, a network error, or a timeout (5s connect, 10s request).
-6. **Response shape is our own.** potterapi's `spell` becomes `name` and `use` becomes `description`. Both are trimmed, and null values become empty strings. The upstream `index` field is dropped.
-7. **Spell list.** `/api/spells` returns every spell from potterapi, with the same name/description mapping as rule 6. Entries without a name are dropped, duplicates (ignoring case) are removed keeping the first, and the list is sorted A-Z ignoring case. These are the "valid" spells, i.e. the ones a lookup can succeed for.
-8. **Read-only.** Only GET is supported.
+### Journey 1: Opening the app
 
-### Frontend
+```gherkin
+Feature: Opening the app
+  As a Harry Potter fan
+  I want to see a spell as soon as I open the page
+  So that I know the app works and what it offers
 
-1. A "Valid spells" list is shown on the left, loaded from `/api/spells`. Hovering a spell shows its description as a tooltip. If the list can't be loaded, the sidebar shows "Could not load the spell list." and manual lookup still works.
-2. Clicking a spell fills the input and looks it up. The currently displayed spell is highlighted in the list.
-3. On load, the page automatically looks up the default spell, "Expelliarmus".
-4. Submitting the form looks up the entered name (trimmed).
-5. A successful result is shown as the spell name prefixed with ✨, followed by its description.
-6. Errors are shown in an alert area, and the previous result is hidden while a new lookup runs.
-   - If the backend returns an `error` message, that message is shown.
-   - Otherwise the page shows `Request failed with status <code>`.
-   - If the backend can't be reached, it shows "Could not reach the spell service. Please try again."
+  Acceptance criteria:
+  - When I open the page, I see the spell "Expelliarmus" and its description without doing anything.
+  - I see a list called "Valid spells" on the left side, sorted from A to Z.
+  - Each spell appears only once in the list, no matter how it is capitalized.
+  - When I hover over a spell in the list, I see its description.
+  - If the list cannot be loaded, I see the message "Could not load the spell list."
+    and I can still search for spells by typing.
+```
 
-## Scope
+### Journey 2: Choosing a spell from the list
 
-This app has unit tests only. There are no contract or e2e tests.
+```gherkin
+Feature: Choosing a spell from the list
+  As a Harry Potter fan
+  I want to click on a spell
+  So that I can read about it without typing
+
+  Acceptance criteria:
+  - When I click a spell in the list, its name appears in the search box.
+  - The spell's name and description are shown right away.
+  - The spell I am reading about is highlighted in the list.
+```
+
+### Journey 3: Searching for a spell
+
+```gherkin
+Feature: Searching for a spell
+  As a Harry Potter fan
+  I want to type the name of a spell
+  So that I can find out what it does
+
+  Acceptance criteria:
+  - When I type a spell name and submit, I see that spell's name (with a ✨ before it) and its description.
+  - Capital letters and extra spaces around my words do not matter ("  lumos " finds "Lumos").
+  - If several spells match what I typed, I get the one that matches exactly.
+    Typing "Lumos" shows "Lumos", even though "Lumos Maxima" also exists.
+  - If nothing matches exactly, I get the first similar spell. Typing "Lum" shows the first spell starting that way.
+  - Only one spell is ever shown at a time.
+  - While a new search is running, the previous result and any previous error disappear.
+```
+
+### Journey 4: Something goes wrong
+
+```gherkin
+Feature: Clear messages when a search does not work
+  As a Harry Potter fan
+  I want to understand what happened when I do not get a spell
+  So that I know what to do next
+
+  Acceptance criteria:
+  - If I submit an empty search, I am told that a spell name is required.
+  - If the spell does not exist, I am told that no spell was found for what I typed (for example "xyz").
+  - If the spell information source is down, slow or sends something unreadable,
+    I am told there was a problem getting spells from it.
+  - If the app cannot reach the spell service at all, I see
+    "Could not reach the spell service. Please try again."
+  - In every case I see no spell, only the message.
+```
+
+### Journey 5: What the spell service guarantees
+
+These are the promises behind the screen, described in terms of what a person would see.
+
+```gherkin
+Feature: Spell information
+  Acceptance criteria:
+  - Every spell has a name and a description, with no stray spaces around them.
+  - A spell with a missing description is shown with an empty description, never as an error.
+  - Spells without a name never appear in the list.
+  - Nothing can be changed by users: the app only lets people read spells.
+  - Spell information is provided in English only.
+```
+
+## Scope and challenge
+
+This app currently has unit tests only. It is used as an interview challenge: the
+challenger is expected to implement the missing test layers for the business rules above.
+
+1. **End-to-end tests:** drive the real frontend in a browser against the backend, covering the frontend scenarios.
+2. **Integration tests:** exercise the backend HTTP API (and the frontend server) with potterapi stubbed, covering the backend scenarios, including upstream failures.
+3. **Contract tests:** verify the contract between the frontend and the backend (`/api/spell`, `/api/spells`), and between the backend and potterapi.
